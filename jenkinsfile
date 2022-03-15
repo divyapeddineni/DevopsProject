@@ -28,11 +28,11 @@ pipeline {
             }
         }
 
-        stage('Install Docker on slave through ansible') {
-            agent{label 'master'}
+        stage('Install Docker on slave through puppet') {
+            agent{ label 'slave'}
             steps {
-                sh "sudo cd /etc/ansible"
-                sh "sudo ansible-playbook docker.yaml"
+                sh "sudo /opt/puppetlabs/bin/puppet module install garethr-docker"
+                sh "sudo /opt/puppetlabs/bin/puppet apply /home/jenkins/jenkins_slave/workspace/Certification/dockerce.pp"
             }
         }
 
