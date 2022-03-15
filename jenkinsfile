@@ -52,4 +52,5 @@ pipeline {
                 sh "sudo docker run -it -d --name webapp -p 8081:80 test"
             }
         }
+    }
 }
