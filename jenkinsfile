@@ -32,15 +32,15 @@ pipeline {
             agent{ label 'slave'}
             steps {
                 sh "sudo /opt/puppetlabs/bin/puppet module install garethr-docker"
-                sh "sudo /opt/puppetlabs/bin/puppet apply /home/jenkins/jenkins_slave/workspace/Certification/dockerce.pp"
+                sh "sudo /opt/puppetlabs/bin/puppet apply /home/jenkins/jenkins_slave/workspace/Project/dockerce.pp"
             }
         }
 
         stage('Git Checkout') {
             agent{ label 'slave'}
             steps {
-                sh "if [ ! -d '/home/jenkins/jenkins_slave/workspace/Certification' ]; then git clone https://github.com/divyapeddineni/DevopsProject /home/jenkins/jenkins_slave/workspace/Certification ; fi"
-                sh "cd /home/jenkins/jenkins_slave/workspace/Certification && sudo git checkout master"
+                sh "if [ ! -d '/home/jenkins/jenkins_slave/workspace/Project' ]; then git clone https://github.com/divyapeddineni/DevopsProject /home/jenkins/jenkins_slave/workspace/Project ; fi"
+                sh "cd /home/jenkins/jenkins_slave/workspace/Project && sudo git checkout master"
             }
         }
         
@@ -48,7 +48,7 @@ pipeline {
             agent{ label 'slave'}
             steps {
                 sh "sudo docker rm -f webapp || true"
-                sh "cd /home/jenkins/jenkins_slave/workspace/Certification && sudo docker build -t test ."
+                sh "cd /home/jenkins/jenkins_slave/workspace/Project && sudo docker build -t test ."
                 sh "sudo docker run -it -d --name webapp -p 8081:80 test"
             }
         }
